@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Player from './Player'
 import './Field.css'
 
@@ -16,6 +16,11 @@ function Field({ players, onDragEnd, onRemovePlayer }) {
     window.addEventListener('pointerup', stopDragging)
     window.addEventListener('pointercancel', stopDragging)
     window.addEventListener('blur', stopDragging)
+    // add global move listeners so drag continues when pointer leaves the field
+    window.addEventListener('pointermove', windowPointerMove)
+    window.addEventListener('mousemove', windowPointerMove)
+    // touchmove must be non-passive to allow preventDefault()
+    window.addEventListener('touchmove', windowTouchMove, { passive: false })
 
     return () => {
       window.removeEventListener('mouseup', stopDragging)
@@ -24,11 +29,29 @@ function Field({ players, onDragEnd, onRemovePlayer }) {
       window.removeEventListener('pointerup', stopDragging)
       window.removeEventListener('pointercancel', stopDragging)
       window.removeEventListener('blur', stopDragging)
+      window.removeEventListener('pointermove', windowPointerMove)
+      window.removeEventListener('mousemove', windowPointerMove)
+      window.removeEventListener('touchmove', windowTouchMove, { passive: false })
     }
   }, [draggingId])
 
   const startDragging = (playerId) => {
     setDraggingId(playerId)
+  }
+
+  const fieldRef = useRef(null)
+
+  // Window-level move handlers (defined here so we can add/remove in effect)
+  const windowPointerMove = (e) => {
+    // pointer & mouse
+    updatePosition(e.clientX, e.clientY, fieldRef.current)
+  }
+
+  const windowTouchMove = (e) => {
+    const touch = e.touches && e.touches[0]
+    if (!touch) return
+    e.preventDefault()
+    updatePosition(touch.clientX, touch.clientY, fieldRef.current)
   }
 
   const updatePosition = (clientX, clientY, fieldElement) => {
@@ -56,11 +79,16 @@ function Field({ players, onDragEnd, onRemovePlayer }) {
   const handleTouchStart = (e, playerId) => {
     const touch = e.touches[0]
     if (!touch) return
+    e.preventDefault()
     startDragging(playerId)
   }
 
   const handlePointerDown = (e, playerId) => {
     e.preventDefault()
+    // try to capture the pointer so moves continue even if it leaves the element
+    try {
+      e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId)
+    } catch (err) {}
     startDragging(playerId)
   }
 
@@ -109,6 +137,7 @@ function Field({ players, onDragEnd, onRemovePlayer }) {
   return (
     <div
       className="field"
+      ref={fieldRef}
       onMouseMove={handleMouseMove}
       onPointerMove={handlePointerMove}
       onMouseUp={handleMouseUp}
