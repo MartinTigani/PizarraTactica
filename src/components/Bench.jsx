@@ -49,16 +49,22 @@ function Bench({ players, onAddPlayer }) {
                 🧤 Arquero
               </button>
               <button 
-                className="position-btn defensor"
-                onClick={() => handleSelectPosition('defensor')}
+                className="position-btn base"
+                onClick={() => handleSelectPosition('base')}
               >
-                🛡️ Defensor
+                🛡️ Base
               </button>
               <button 
-                className="position-btn delantero"
-                onClick={() => handleSelectPosition('delantero')}
+                className="position-btn ala"
+                onClick={() => handleSelectPosition('ala')}
               >
-                ⚽ Delantero
+                🏃 Ala
+              </button>
+              <button 
+                className="position-btn pivote"
+                onClick={() => handleSelectPosition('pivote')}
+              >
+                ⚽ Pivote
               </button>
             </div>
             <button 

@@ -180,19 +180,27 @@
   box-shadow: 0 8px 16px rgba(245, 87, 108, 0.4);
 }
 
-.position-btn.defensor {
+.position-btn.base {
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
-.position-btn.defensor:hover {
+.position-btn.base:hover {
   box-shadow: 0 8px 16px rgba(79, 172, 254, 0.4);
 }
 
-.position-btn.delantero {
+.position-btn.ala {
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+}
+
+.position-btn.ala:hover {
+  box-shadow: 0 8px 16px rgba(253, 160, 133, 0.45);
+}
+
+.position-btn.pivote {
   background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
 }
 
-.position-btn.delantero:hover {
+.position-btn.pivote:hover {
   box-shadow: 0 8px 16px rgba(67, 233, 123, 0.4);
 }
 

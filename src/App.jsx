@@ -39,8 +39,15 @@ function App() {
     const player = benchPlayers.find(p => p.id === playerId)
     if (player) {
       setBenchPlayers(prev => prev.filter(p => p.id !== playerId))
-      const newX = position === 'arquero' ? 50 : (position === 'delantero' ? 50 : 50)
-      const newY = position === 'arquero' ? 10 : (position === 'delantero' ? 70 : 30)
+      const newX = 50
+      const newY =
+        position === 'arquero'
+          ? 10
+          : position === 'base' || position === 'defensor'
+            ? 30
+            : position === 'ala'
+              ? 50
+              : 70
       setFieldPlayers(prev => [...prev, { ...player, position, x: newX, y: newY }])
     }
   }

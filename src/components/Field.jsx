@@ -1,16 +1,38 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Player from './Player'
 import './Field.css'
 
 function Field({ players, onDragEnd, onRemovePlayer }) {
   const [draggingId, setDraggingId] = useState(null)
 
+  useEffect(() => {
+    if (draggingId === null) return
+
+    const stopDragging = () => setDraggingId(null)
+
+    window.addEventListener('mouseup', stopDragging)
+    window.addEventListener('touchend', stopDragging)
+    window.addEventListener('touchcancel', stopDragging)
+    window.addEventListener('pointerup', stopDragging)
+    window.addEventListener('pointercancel', stopDragging)
+    window.addEventListener('blur', stopDragging)
+
+    return () => {
+      window.removeEventListener('mouseup', stopDragging)
+      window.removeEventListener('touchend', stopDragging)
+      window.removeEventListener('touchcancel', stopDragging)
+      window.removeEventListener('pointerup', stopDragging)
+      window.removeEventListener('pointercancel', stopDragging)
+      window.removeEventListener('blur', stopDragging)
+    }
+  }, [draggingId])
+
   const startDragging = (playerId) => {
     setDraggingId(playerId)
   }
 
   const updatePosition = (clientX, clientY, fieldElement) => {
-    if (!draggingId) return
+    if (draggingId === null) return
 
     const rect = fieldElement.getBoundingClientRect()
     let x = ((clientX - rect.left) / rect.width) * 100
@@ -47,7 +69,7 @@ function Field({ players, onDragEnd, onRemovePlayer }) {
   }
 
   const handleTouchMove = (e) => {
-    if (!draggingId) return
+    if (draggingId === null) return
     const touch = e.touches[0]
     if (!touch) return
     e.preventDefault()
@@ -55,7 +77,7 @@ function Field({ players, onDragEnd, onRemovePlayer }) {
   }
 
   const handlePointerMove = (e) => {
-    if (!draggingId) return
+    if (draggingId === null) return
     updatePosition(e.clientX, e.clientY, e.currentTarget)
   }
 
@@ -71,8 +93,12 @@ function Field({ players, onDragEnd, onRemovePlayer }) {
     switch (position) {
       case 'arquero':
         return '🧤'
+      case 'base':
       case 'defensor':
         return '🛡️'
+      case 'ala':
+        return '🏃'
+      case 'pivote':
       case 'delantero':
         return '⚽'
       default:

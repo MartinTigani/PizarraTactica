@@ -8,8 +8,9 @@ function Player({ player, icon, onRemove, isDragging }) {
         <p className="player-name">{player.name}</p>
         <p className="player-position">
           {player.position === 'arquero' && 'Arquero'}
-          {player.position === 'defensor' && 'Defensor'}
-          {player.position === 'delantero' && 'Delantero'}
+          {(player.position === 'base' || player.position === 'defensor') && 'Base'}
+          {player.position === 'ala' && 'Ala'}
+          {(player.position === 'pivote' || player.position === 'delantero') && 'Pivote'}
         </p>
         <button
           className="remove-btn"
