@@ -7,15 +7,16 @@ function App() {
   const [fieldPlayers, setFieldPlayers] = useState([])
 
   const [benchPlayers, setBenchPlayers] = useState([
-    { id: 1, name: 'Juli' },
+    { id: 1, name: 'Gonzalo' },
     { id: 2, name: 'Lucas' },
-    { id: 3, name: 'Martin' },
-    { id: 4, name: 'Carlitos' },
-    { id: 5, name: 'Richard' },
-    { id: 6, name: 'Maty' },
-    { id: 7, name: 'Gera' },
-    { id: 8, name: 'Antonio' },
-    { id: 9, name: 'Zurdo' },
+    { id: 3, name: 'Negro' },
+    { id: 4, name: 'Tincho' },
+    { id: 5, name: 'Mono' },
+    { id: 6, name: 'Pollo' },
+    { id: 7, name: 'Nacho' },
+    { id: 8, name: 'Melli' },
+    { id: 9, name: 'Leo' },
+    { id: 10, name: 'Fer' },
   ])
 
   const handleDragEnd = (playerId, newX, newY) => {
